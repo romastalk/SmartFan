@@ -1,0 +1,43 @@
+﻿@page "/"
+
+<h1>Welcom</h1>
+
+<h3>@connectionStatus</h3>
+<button class="btn btn-success" @onclick="async () => await ConnectToServer()" disabled="@isConnected">Connect</button>
+<div class="row">
+    <div class="col-4">
+
+    </div>
+</div>
+
+@code
+{
+    string url = "http://localhost:30960/Message";
+    HubConnection _connection = null;
+    bool isConnected = false;
+    string connectionStatus = "Closed";
+
+    private async Task ConnectToServer()
+    {
+        _connection = new HubConnectionBuilder()
+            .WithUrl(url)
+            .Build();
+
+        await _connection.StartAsync();
+        isConnected = true;
+        connectionStatus = "Connected";
+
+        _connection.Closed += async (s) =>
+        {
+            isConnected = false;
+            connectionStatus = "Disconnected";
+            await _connection.StartAsync();
+            isConnected = true;
+        }; 
+
+
+    }
+
+
+
+}
