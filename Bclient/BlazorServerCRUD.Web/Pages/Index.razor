@@ -1,0 +1,52 @@
+@using Microsoft.AspNetCore.SignalR.Client;
+@page "/"
+
+<div class="form-group">
+    <label>
+        Message:
+        <input @bind="sendmessage" />
+    </label>
+</div>
+<button @onclick="Send">Send</button>
+
+<div class="form-group">
+    Значения
+    <label>@newmessage</label>
+</div>
+
+
+@code
+{
+    private string newmessage;
+    private string sendmessage;
+    private HubConnection connection;
+
+    protected override async Task OnInitializedAsync()
+    {
+        connection = new HubConnectionBuilder()
+          .WithUrl("http://192.168.0.11:8080/ServerSide")
+          .Build();
+
+        await connection.StartAsync();
+    }
+    private async Task Send()
+    {
+
+
+        if (connection is not null && sendmessage != null)
+        {
+            await connection.SendAsync("Send", sendmessage);
+        }
+        else
+        {
+            newmessage = "hueta";
+        }
+
+        connection.On<string>("Message", message =>
+        {
+            newmessage = message;
+            StateHasChanged();
+        });
+    }
+
+}
