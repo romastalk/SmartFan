@@ -1,0 +1,36 @@
+﻿@page "/"
+
+
+
+
+
+
+    <h1>.</h1>
+
+    <h1>.</h1>
+    <div style=" padding: 100px; ">
+        <p><font color="#ffffff">Температура: @currentCount</font></p>
+        <p><font color="#ffffff">Влажность воздуха: @currentCount</font></p>
+        <p><font color="#ffffff">Атмосферное давление: @currentCount</font></p>
+        <p><font color="#ffffff">Скорость вращения: @currentCount</font></p>
+
+        <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+        <button class="btn btn-primary" @onclick="IncrementCount2">Click me</button>
+    </div>
+
+    @code {
+    private string currentCount = "";
+    private string currentCount1 = "s";
+    private void IncrementCount()
+    {
+    currentCount=currentCount1;
+    }
+    private void IncrementCount2()
+    {
+    currentCount="sss";
+    }
+
+    }
+
+
+
